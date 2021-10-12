@@ -1,0 +1,110 @@
+%  This simple example illustrates how documents can be
+%  split into smaller segments, each segment processed
+%  by latex2html separately.  This document can be
+%  processed through latex and latex2html with the
+%  corresponding makefile.
+%
+
+\documentclass{article}         % Must use LaTeX 2e
+\usepackage[plainpages=false, colorlinks=true, citecolor=black, filecolor=black, linkcolor=black, urlcolor=black]{hyperref}		
+\usepackage[left=.75in,right=.75in,top=.75in,bottom=.75in]{geometry}
+\usepackage{makeidx,color,boxedminipage}
+\usepackage{graphicx,float}
+\usepackage{amsmath,amsthm,amsfonts,amscd,amssymb} 
+
+%%%%% for commenting
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc
+
+
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage[colorinlistoftodos,prependcaption]{todonotes}
+\newcommandx{\comment}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=OliveGreen,backgroundcolor=OliveGreen!25,bordercolor=OliveGreen,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+%\newcommandx{\check}[2][1=]{\todo[linecolor=Plum,backgroundcolor=orange!25,bordercolor=orange,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Some math support.					     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	Theorem environments (these need the amsthm package)
+%
+%% \theoremstyle{plain} %% This is the default
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{rem}{Remark}[section]
+\newtheorem*{notation}{Notation}
+\newtheorem*{exrcs}{Exercise}
+\newtheorem*{exmple}{Example}
+
+%\numberwithin{equation}{section}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Macros.							     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%	Here some macros that are needed in this document:
+
+\newcommand{\motion}{\mathbf{\varphi}}
+\newcommand{\hmotion}{\mbox{\boldmath $\hat{\varphi}$}}
+\newcommand{\cauchy}{\mbox{\boldmath $\sigma$}}
+\newcommand{\eqn}[1]{(\ref{#1})}
+\newcommand{\hOmega}{\hat{\Omega}}
+\newcommand{\homega}{\hat{\omega}}
+\newcommand{\nphalf}{n+\frac{1}{2}}
+\newcommand{\nmhalf}{n-\frac{1}{2}}
+\newcommand{\kmhalf}{k-\frac{1}{2}}
+\newcommand{\kphalf}{k+\frac{1}{2}}
+\newcommand{\picdir}{pdffig/}
+
+
+%\include{symbols}
+\usepackage{mathtools,bm,comment,array,filecontents}
+
+\newcommand{\re}{\mathbb R}
+\newcommand{\Ex}[2]{\mathcal{E}^{#2}[#1]}
+%\newcommand{\log}{\text{log}[#1]}
+\newcommand{\Tr}{\mathbf{Tr}}
+\newcommand{\etal}{\textit{et al. }}
+
+\newcommand{\eq}[1]{Eq.~(\ref{#1})}
+\newcommand{\Fig}[1]{Fig.~\ref{#1}}
+
+
+\title{Thermal damage model for TE}
+\author{}
+\begin{document}                
+
+The relationship between cell survival, $S$, and cell
+damage, $\Omega$, is as follows~\cite{he2003quantification}:
+\[
+\Omega = \ln \left(\frac{1}{S}\right)
+       = \int_0^\tau  A \exp\left( -\frac{E_a}{R T} \right)\; dt
+\]
+
+Here we assume activation energy, $E_a [J/mol]$, is a linear function of pH
+\[
+   E_a(pH) = E_a^0 + E_a^1  \; pH
+\]
+
+The frequency factor, $A$, is known to follow a linear relationshipt with $E_a$
+\[
+  \ln (A) = 3.8e-4 \; E_a  - 9.36
+\]
+
+\end{document}
