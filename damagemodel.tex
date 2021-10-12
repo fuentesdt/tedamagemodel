@@ -104,7 +104,22 @@ Here we assume activation energy, $E_a [J/mol]$, is a linear function of pH
 
 The frequency factor, $A$, is known to follow a linear relationshipt with $E_a$
 \[
-  \ln (A) = 3.8e-4 \; E_a  - 9.36
+  \ln (A) = 3.8e^{-4} \; E_a  - 9.36
 \]
+For constant $T$
+\[
+         \ln \left(\frac{1}{S}\right)
+       = \Delta\tau  A \exp\left( -\frac{E_a}{R T} \right)\
+       = \Delta\tau  A \exp\left( -\frac{E_a^0 + E_a^1  \; pH}{R T} \right)
+\]
+For figure 2 experiment, cells were heat with contant temperature $T_{heat}$ for $\Delta \tau_{heat}$
+under an akalyne ph, $pH_{heat}$,
+prior to an incubation period, $T_{inc}$ for $\Delta \tau_{inc}$ and $pH_{inc}$
+\[
+         \ln \left(\frac{1}{S}\right)
+       = \Delta\tau_{heat}  A \exp\left( -\frac{E_a^0 + E_a^1  \; pH}{R T_{heat}} \right)
+       + \Delta\tau_{inc}  A \exp\left( -\frac{E_a^0 + E_a^1  \; pH}{R T_{inc}} \right)
+\]
+This is of the form of a nonlinear lsq.
 
 \end{document}
