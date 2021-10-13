@@ -24,12 +24,19 @@ semilogy(acid20min.minute,acid20min.survival)
 % setup curve fit
 Ea0 = optimvar('Ea0','LowerBound',0);
 Ea1 = optimvar('Ea1','LowerBound',0);
-
+frequencyfactor = 3.1e98;
+deltaTheat10min = [10;10;10];
+pHheat = 7.5;
+pHincbase = 7.5;
+GasConst  = 8.314 ; % J/K / mol
+Theat10min = 45.5 + 273; % K
+Tinc       = 37.0 + 273; % K
 
 disp('build objective function')
-mycostfcn = log( base10min.survival.^(-1)) - ...
+mycostfcn = sum((log( base10min.survival.^(-1)) - ...
    deltaTheat10min * frequencyfactor * exp(-(Ea0+Ea1* pHheat)/(GasConst * Theat10min)) - ...
-   base10min.minute * frequencyfactor * exp(-(Ea0+Ea1* pHincbase)/(GasConst * Tinc))
+   base10min.minute * frequencyfactor * exp(-(Ea0+Ea1* pHincbase)/(GasConst * Tinc))).^2)
+show(mycostfcn )
 
 
 disp('create optim prob')
@@ -39,4 +46,6 @@ problem = prob2struct(convprob,'ObjectiveFunctionName','generatedObjective');
 %% 
 % Solve the new problem. The solution is essentially the same as before.
 myoptions = optimoptions(@lsqnonlin,'Display','iter-detailed');
+x0.Ea0 = 6.28e5; % J/mol
+x0.Ea1 = 0;
 [popt,fval,exitflag,output] = solve(convprob,x0,'Options',myoptions, 'solver','lsqnonlin' )
