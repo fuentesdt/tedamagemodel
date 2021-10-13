@@ -95,6 +95,8 @@ damage, $\Omega$, is as follows~\cite{he2003quantification}:
 \[
 \Omega = \ln \left(\frac{1}{S}\right)
        = \int_0^\tau  A \exp\left( -\frac{E_a}{R T} \right)\; dt
+       = \int_0^\tau  \exp ^{\ln A} \exp\left( -\frac{E_a}{R T} \right)\; dt
+       = \int_0^\tau   \exp\left( \ln A-\frac{E_a}{R T} \right)\; dt
 \]
 
 Here we assume activation energy, $E_a [J/mol]$, is a linear function of pH
@@ -109,8 +111,15 @@ The frequency factor, $A$, is known to follow a linear relationshipt with $E_a$
 For constant $T$
 \[
          \ln \left(\frac{1}{S}\right)
-       = \Delta\tau  A \exp\left( -\frac{E_a}{R T} \right)\
+       = \Delta\tau  A \exp\left( -\frac{E_a}{R T} \right)
        = \Delta\tau  A \exp\left( -\frac{E_a^0 + E_a^1  \; pH}{R T} \right)
+\]
+\[
+       \exp^{\ln \left(\frac{1}{S}\right)} = 
+                   \frac{1}{S}
+       = \exp^{\Delta\tau  A \exp\left( -\frac{E_a^0 + E_a^1  \; pH}{R T} \right)}
+  \qquad \Rightarrow \qquad
+   S = \exp^{- \Delta\tau  A \exp\left( -\frac{E_a^0 + E_a^1  \; pH}{R T} \right)}
 \]
 For figure 2 experiment, cells were heat with contant temperature $T_{heat}$ for $\Delta \tau_{heat}$
 under an akalyne ph, $pH_{heat}$,
