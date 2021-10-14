@@ -95,7 +95,25 @@ plot(log( base10min.survival.^(-1)), damagepredictionbase10min , 'x',log( acid10
 xlabel( 'measured damage')
 ylabel( 'predicted damage')
 
+measureddamage =  [log( base10min.survival.^(-1));
+                   log( acid10min.survival.^(-1));
+                   log( base15min.survival.^(-1));
+                   log( acid15min.survival.^(-1));
+                   log( base20min.survival.^(-1));
+                   log( acid20min.survival.^(-1))];
+
+predicteddamage =[damagepredictionbase10min;
+                  damagepredictionacid10min;
+                  damagepredictionbase15min;
+                  damagepredictionacid15min;
+                  damagepredictionbase20min;
+                  damagepredictionacid20min];
 
 % get Rsquared
-mdl = fitlm(log( base10min.survival.^(-1)),damagepredictionbase10min )
-mdl.Rsquared.Ordinary
+mdl = fitlm(measureddamage ,predicteddamage )
+handlefit=figure(3)
+plot(mdl)
+xlabel( 'measured damage')
+ylabel( 'predicted damage')
+title(sprintf('Arrhenius fit, R^2=%f, Ea0=%9.2e, Ea1=%9.2e',mdl.Rsquared.Ordinary,popt.Ea0,popt.Ea1))
+saveas(handlefit,'ArrheniusFit','png')
