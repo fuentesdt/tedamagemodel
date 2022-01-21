@@ -32,14 +32,11 @@ GasConst  = 8.314 ; % J/K / mol
 disp('build objective function')
 fullcostfcn = sum((log( summarydata.Viabilty.^(-1)) - ...
    summarydata.Time.* exp(logA -Ea0*(GasConst * summarydata.Temperature +Ea1* summarydata.pH ).^(-1)) ).^2)  
-phcostfcn = sum((log( pHsubset.Viabilty.^(-1)) - ...
-   pHsubset.Time.* exp(logA -Ea0*(GasConst * pHsubset.Temperature +Ea1* pHsubset.pH ).^(-1)) ).^2)  
 tempcostfcn = sum((log( temperaturesubset.Viabilty.^(-1)) - ...
    temperaturesubset.Time.* exp(logA -(Ea0)./(GasConst * temperaturesubset.Temperature  )) ).^2)  
 
 disp('create optim prob')
 convprob = optimproblem('Objective',fullcostfcn );
-phprob   = optimproblem('Objective',  phcostfcn );
 tempprob = optimproblem('Objective',tempcostfcn );
 %show(convprob)
 %% problem = prob2struct(convprob,'ObjectiveFunctionName','generatedObjective');
@@ -54,17 +51,23 @@ x0.Ea0 = 6.28e5; % J/mol
 x0.Ea1 = 0;
 x0.logA = log(3.1e98);
 [popt,fval,exitflag,output] = solve(convprob,x0,'Options',myoptions, 'solver','lsqnonlin' )
-[poptph,fvalph,exitflagph,outputph] = solve(phprob,x0,'Options',myoptions, 'solver','lsqnonlin' )
 [popttemp,fvaltemp,exitflagtemp,outputtemp] = solve(tempprob,x0,'Options',myoptions, 'solver','lsqnonlin' )
+
+
+phcostfcn = sum((log( pHsubset.Viabilty.^(-1)) - ...
+   pHsubset.Time.* exp(popttemp.logA -popttemp.Ea0*(GasConst * pHsubset.Temperature +Ea1* pHsubset.pH ).^(-1)) ).^2)  
+phprob   = optimproblem('Objective',  phcostfcn );
+[poptph,fvalph,exitflagph,outputph] = solve(phprob,x0,'Options',myoptions, 'solver','lsqnonlin' )
 
 initobjfunc = evaluate(fullcostfcn ,x0)
 optobjefunc = evaluate(fullcostfcn ,popt)
 
 %evaluate fit
 damageprediction= exp(popt.logA ) * summarydata.Time.*exp(-popt.Ea0*(GasConst * summarydata.Temperature+popt.Ea1* summarydata.pH).^(-1));
+damagepredictionstep= exp(popttemp.logA ) * summarydata.Time.*exp(-popttemp.Ea0*(GasConst * summarydata.Temperature+poptph.Ea1* summarydata.pH).^(-1));
 measureddamage =  log( summarydata.Viabilty.^(-1));
 
-damagepredictionph= exp(poptph.logA ) * pHsubset.Time.*exp(-poptph.Ea0*(GasConst * pHsubset.Temperature+poptph.Ea1* pHsubset.pH).^(-1));
+damagepredictionph= exp(popttemp.logA ) * pHsubset.Time.*exp(-popttemp.Ea0*(GasConst * pHsubset.Temperature+poptph.Ea1* pHsubset.pH).^(-1));
 measureddamageph =  log( pHsubset.Viabilty.^(-1));
 
 damagepredictiontemp= exp(popttemp.logA ) * temperaturesubset.Time.*exp(-(popttemp.Ea0                                   )./(GasConst * temperaturesubset.Temperature));
@@ -85,7 +88,7 @@ handlefit=figure(6)
 plot(mdlph)
 xlabel( 'measured damage')
 ylabel( 'predicted damage')
-title(sprintf('R^2=%f, A=%9.2e, Ea0=%9.2e, Ea1=%9.2e',mdlph.Rsquared.Ordinary,exp(poptph.logA ) ,poptph.Ea0,poptph.Ea1))
+title(sprintf('R^2=%f, A=%9.2e, Ea0=%9.2e, Ea1=%9.2e',mdlph.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0,poptph.Ea1))
 saveas(handlefit,'ArrheniusFitph','png')
 
 % get Rsquared
@@ -96,3 +99,12 @@ xlabel( 'measured damage')
 ylabel( 'predicted damage')
 title(sprintf('R^2=%f, A=%9.2e, Ea0=%9.2e',mdltemp.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0))
 saveas(handlefit,'ArrheniusFittemp','png')
+
+% get Rsquared
+mdlstep = fitlm(measureddamage ,damagepredictionstep)
+handlefit=figure(8)
+plot(mdlstep)
+xlabel( 'measured damage')
+ylabel( 'predicted damage')
+title(sprintf('R^2=%f, A=%9.2e, Ea0=%9.2e, Ea1=%9.2e',mdlph.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0,poptph.Ea1))
+saveas(handlefit,'ArrheniusFit','png')
