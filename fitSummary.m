@@ -4,8 +4,8 @@ clear all
 close all
 
 % load 2 data 
-%summarydata = readtable('summarydata.csv');
-summarydata = readtable('combinedhepg2data.csv');
+summarydata = readtable('summarydata.csv');
+%summarydata = readtable('combinedhepg2data.csv');
 
 summarydata.Temperature = summarydata.Temperature + 273;
 %summarydata.pH = summarydata.pH ;
@@ -116,5 +116,5 @@ handlefit=figure(8)
 plot(mdlstep)
 xlabel( 'measured damage')
 ylabel( 'predicted damage')
-title(sprintf('R^2=%f, A=%9.2e, Ea0=%9.2e, Ea1=%9.2e',mdlph.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0,poptph.Ea1))
+title(sprintf('R^2=%f, A=%9.2e, Ea0=%9.2e, Ea1=%9.2e',mdlstep.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0,poptph.Ea1))
 saveas(handlefit,'ArrheniusFit','png')
