@@ -94,15 +94,11 @@ The relationship between cell survival, $S$, and cell
 damage, $\Omega$, is as follows~\cite{he2003quantification}:
 \[
 \Omega = \ln \left(\frac{1}{S}\right)
-       = \int_0^\tau  A \exp\left( -\frac{E_a}{R T} \right)\; dt
-       = \int_0^\tau  \exp ^{\ln A} \exp\left( -\frac{E_a}{R T} \right)\; dt
-       = \int_0^\tau   \exp\left( \ln A-\frac{E_a}{R T} \right)\; dt
+       = \int_0^\tau  A \exp\left( -\frac{E_a}{R T  + E_a^1  \; pH }\right)\; dt
+       = \int_0^\tau  \exp ^{\ln A} \exp\left( -\frac{E_a}{R T  + E_a^1  \; pH }\right)\; dt
+       = \int_0^\tau   \exp\left( \ln A-\frac{E_a}{R T + E_a^1  \; pH } \right)\; dt
 \]
-
-Here we assume activation energy, $E_a [J/mol]$, is a linear function of pH
-\[
-   E_a(pH) = E_a^0 + E_a^1  \; pH
-\]
+Here the analytic dependence on  pH has been empirically determined.
 
 The frequency factor, $A$, is known to follow a linear relationshipt with $E_a$
 \[
