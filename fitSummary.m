@@ -88,6 +88,7 @@ set(gca,'FontSize',20)
 xlabel( 'measured damage')
 ylabel( 'predicted damage')
 title(sprintf('R^2=%f, A=%9.2e,\n Ea0=%9.2e, Ea1=%9.2e',mdl.Rsquared.Ordinary,exp(popt.logA ) ,popt.Ea0,popt.Ea1))
+legend('Location', 'northwest'); % Places legend in the top-left corner
 saveas(handlefit,'ArrheniusFit1','png')
 
 % get Rsquared
@@ -99,6 +100,7 @@ set(gca,'FontSize',20)
 xlabel( 'measured damage')
 ylabel( 'predicted damage')
 title(sprintf('R^2=%f, A=%9.2e,\n Ea0=%9.2e, Ea1=%9.2e',mdlph.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0,poptph.Ea1))
+legend('Location', 'northwest'); % Places legend in the top-left corner
 saveas(handlefit,'ArrheniusFitph','png')
 
 % get Rsquared
@@ -110,6 +112,7 @@ set(gca,'FontSize',20)
 xlabel( 'measured damage')
 ylabel( 'predicted damage')
 title(sprintf('R^2=%f, A=%9.2e,\n Ea0=%9.2e',mdltemp.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0))
+legend('Location', 'northwest'); % Places legend in the top-left corner
 saveas(handlefit,'ArrheniusFittemp','png')
 
 % get Rsquared
@@ -121,4 +124,5 @@ set(gca,'FontSize',20)
 xlabel( 'measured damage')
 ylabel( 'predicted damage')
 title(sprintf('R^2=%f, A=%9.2e,\n Ea0=%9.2e, Ea1=%9.2e',mdlstep.Rsquared.Ordinary,exp(popttemp.logA ) ,popttemp.Ea0,poptph.Ea1))
+legend('Location', 'northwest'); % Places legend in the top-left corner
 saveas(handlefit,'ArrheniusFit','png')
